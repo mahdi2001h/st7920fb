@@ -2,7 +2,7 @@
  * st7920fb.h
  *
  *  Created on: 08 янв. 2015 г.
- *      Author: dsv
+ *      Author: Dmitriy Vostrikov <dsvost@gmail.com>
  */
 
 #ifndef ST7920FB_H_

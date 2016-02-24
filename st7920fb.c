@@ -2,7 +2,7 @@
  * st7920.c
  *
  *  Created on: 08 янв. 2015 г.
- *      Author: Dmitriy Vostrikov dsvost@gmail.com
+ *      Author: Dmitriy Vostrikov <dsvost@gmail.com>
  */
 #include <linux/module.h>
 #include <linux/kernel.h>

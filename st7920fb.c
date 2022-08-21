@@ -88,7 +88,7 @@ static void st7920_display_on(void) {
 	ndelay(10);
 	st7920_display_clear();
 	ndelay(1);
-	st7920_show_logo(rpi_logo);
+	st7920_show_logo(linux_logo);
 //	mdelay(10);
 //	st7920_show_logo(rd_logo);
 }
@@ -493,8 +493,7 @@ static int st7920fb_remove(struct spi_device *pdev)
 	struct fb_info *info = spi_get_drvdata(pdev);
 
 	if (info) {
-		if (!unregister_framebuffer(info))
-			return -EINVAL;
+		unregister_framebuffer(info);
 
 	//fb_dealloc_cmap(&info->cmap);
 		fb_deferred_io_cleanup(info);
@@ -510,15 +509,28 @@ static int st7920fb_remove(struct spi_device *pdev)
 #define st7920fb_resume NULL
 //#endif /* CONFIG_PM */
 
+static const struct spi_device_id st7920_id[] = {
+	{"st7920", 0},
+	{}
+};
+
+static const struct of_device_id st7920_of_match[] = {
+	{ .compatible = "sitronix,st7920", },
+	{ },
+};
+MODULE_DEVICE_TABLE(of, st7920_of_match);
+
 static struct spi_driver st7920fb_driver = {
+	.driver = {
+		.name = "st7920",
+		.owner = THIS_MODULE,
+		.of_match_table = st7920_of_match,
+	},
+	
 	.probe = st7920fb_probe,
 	.remove = st7920fb_remove,
-	.suspend = st7920fb_suspend,
-	.resume = st7920fb_resume,
-	.driver = {
-		.name = "st7920fb",
-		.owner = THIS_MODULE,
-	},
+	.id_table	= st7920_id,
+	
 };
 
 module_spi_driver(st7920fb_driver);
